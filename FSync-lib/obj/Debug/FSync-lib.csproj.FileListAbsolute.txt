@@ -1,0 +1,5 @@
+c:\users\pavel\documents\visual studio 2015\Projects\FSync-lib\FSync-lib\bin\Debug\FSync-lib.dll
+c:\users\pavel\documents\visual studio 2015\Projects\FSync-lib\FSync-lib\bin\Debug\FSync-lib.pdb
+c:\users\pavel\documents\visual studio 2015\Projects\FSync-lib\FSync-lib\obj\Debug\FSync-lib.dll
+c:\users\pavel\documents\visual studio 2015\Projects\FSync-lib\FSync-lib\obj\Debug\FSync-lib.pdb
+c:\Users\Pavel\Documents\Visual Studio 2015\Projects\FSync-lib\FSync-lib\obj\Debug\FSync-lib.csprojResolveAssemblyReference.cache
