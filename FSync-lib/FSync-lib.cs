@@ -28,6 +28,12 @@ namespace FSync_lib
                 return;
             }
 
+            if (!Directory.Exists(SRCDIR))
+            {
+                Console.WriteLine("Directory '" + SRCDIR + "' doesn't exist!");
+                return;
+            }
+
             if (DESTDIR == "")
             {
                 Console.WriteLine("Missing parameter DESTDIR");
@@ -231,11 +237,35 @@ namespace FSync_lib
 
         public static void setSRCDIR(string srcDir)
         {
+            if(srcDir == "")
+            {
+                return;
+            }
+
+            int at = srcDir.LastIndexOf('\\', srcDir.Length - 1, 1);
+
+            if(at < 0)
+            {
+                srcDir = srcDir + "\\";
+            }
+
             SRCDIR = srcDir;
         }
 
         public static void setDESTDIR(string destDir)
         {
+            if(destDir == "")
+            {
+                return;
+            }
+
+            int at = destDir.LastIndexOf('\\', destDir.Length - 1, 1);
+
+            if (at < 0)
+            {
+                destDir = destDir + "\\";
+            }
+
             DESTDIR = destDir;
 
             if (DESTDIR != "")
