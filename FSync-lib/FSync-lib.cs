@@ -12,39 +12,39 @@ namespace FSync_lib
 {
     public class FSync_lib
     {
-        static bool r           = false;
-        static bool f           = false;
-        static string z         = "";
-        static string e         = @"^.+\.*$";
-        static string i         = "";
-        static string SRCDIR    = "";
-        static string DESTDIR   = "";
+        static bool allowCreateSubdirectories   = false;
+        static bool allowOverwriteExistingFiles = false;
+        static string ZIPfileSuffixName         = "";
+        static string listOfAllowedExtensions   = @"^.+\.*$";
+        static string indexFileName             = "";
+        static string sourceDirectory           = "";
+        static string destinationDirectory      = "";
 
         public static void run()
         {
-            if (SRCDIR == "")
+            if (sourceDirectory == "")
             {
                 Console.WriteLine("Missing parameter SRCDIR");
                 return;
             }
 
-            if (!Directory.Exists(SRCDIR))
+            if (!Directory.Exists(sourceDirectory))
             {
-                Console.WriteLine("Directory '" + SRCDIR + "' doesn't exist!");
+                Console.WriteLine("Directory '" + sourceDirectory + "' doesn't exist!");
                 return;
             }
 
-            if (DESTDIR == "")
+            if (destinationDirectory == "")
             {
                 Console.WriteLine("Missing parameter DESTDIR");
                 return;
             }
 
-            FileInfo[] files = GetFilesFromDir(SRCDIR, e);
+            FileInfo[] files = GetFilesFromDir(sourceDirectory, listOfAllowedExtensions);
 
             IndexFiles(files);
 
-            if (z != "")
+            if (ZIPfileSuffixName != "")
             {
                 compressFilesToZip();
             }
@@ -56,7 +56,7 @@ namespace FSync_lib
         private static FileInfo[] GetFilesFromDir(string directory, string extensions = @"^.+\.*$")
         {
             var filePaths = Directory.GetFiles(directory, "*.*").Where(file => Regex.IsMatch(file, extensions));
-            if (r == true)
+            if (allowCreateSubdirectories == true)
             {
                 filePaths = Directory.GetFiles(directory, "*.*", SearchOption.AllDirectories).Where(file => Regex.IsMatch(file, extensions));
             }
@@ -80,28 +80,28 @@ namespace FSync_lib
                 return false;
             }
 
-            if (z != "")
+            if (ZIPfileSuffixName != "")
             {
-                if (!Directory.Exists(DESTDIR + "tmp"))
+                if (!Directory.Exists(destinationDirectory + "tmp"))
                 {
-                    DirectoryInfo dir = Directory.CreateDirectory(DESTDIR + "tmp");
+                    DirectoryInfo dir = Directory.CreateDirectory(destinationDirectory + "tmp");
                     dir.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
 
                 }
 
-                file.CopyTo(DESTDIR + "tmp\\" + file.Name, f);
+                file.CopyTo(destinationDirectory + "tmp\\" + file.Name, allowOverwriteExistingFiles);
             }
             else
             {
-                string filePath = DESTDIR + file.FullName.Replace(SRCDIR, "");
-                string directory = DESTDIR.Substring(0, DESTDIR.Length - 1) + file.DirectoryName.Replace(SRCDIR.Substring(0, SRCDIR.Length - 1), "");
+                string filePath = destinationDirectory + file.FullName.Replace(sourceDirectory, "");
+                string directory = destinationDirectory.Substring(0, destinationDirectory.Length - 1) + file.DirectoryName.Replace(sourceDirectory.Substring(0, sourceDirectory.Length - 1), "");
                 if (!Directory.Exists(directory))
                 {
                     DirectoryInfo di = Directory.CreateDirectory(directory);
                 }
                 try
                 {
-                    file.CopyTo(filePath, f);
+                    file.CopyTo(filePath, allowOverwriteExistingFiles);
                 }
                 catch (IOException ioex)
                 {
@@ -118,9 +118,9 @@ namespace FSync_lib
 
             List<Array> dataFromIndex = getDataFromIndex();
 
-            string indexFileName = i;
+            string indexFileName = FSync_lib.indexFileName;
 
-            using (StreamWriter sw = new StreamWriter(SRCDIR + indexFileName))
+            using (StreamWriter sw = new StreamWriter(sourceDirectory + indexFileName))
             {
                 foreach (FileInfo file in files)
                 {
@@ -150,11 +150,11 @@ namespace FSync_lib
         private static void compressFilesToZip()
         {
 
-            if (Directory.Exists(DESTDIR + "tmp"))
+            if (Directory.Exists(destinationDirectory + "tmp"))
             {
-                ZipFile.CreateFromDirectory(DESTDIR + "tmp", DESTDIR + z);
+                ZipFile.CreateFromDirectory(destinationDirectory + "tmp", destinationDirectory + ZIPfileSuffixName);
 
-                Directory.Delete(DESTDIR + "tmp", true);
+                Directory.Delete(destinationDirectory + "tmp", true);
             }
         }
 
@@ -162,14 +162,14 @@ namespace FSync_lib
         {
             List<Array> filesList = new List<Array>();
 
-            FileInfo index = new FileInfo(SRCDIR + i);
+            FileInfo index = new FileInfo(sourceDirectory + indexFileName);
             if (!index.Exists)
             {
                 var file = index.Create();
                 file.Close();
             }
 
-            using (StreamReader sr = new StreamReader(SRCDIR + i))
+            using (StreamReader sr = new StreamReader(sourceDirectory + indexFileName))
             {
                 string s;
                 while ((s = sr.ReadLine()) != null)
@@ -210,67 +210,67 @@ namespace FSync_lib
             return (int)((double)unixTimeStampInTicks / TimeSpan.TicksPerSecond);
         }
 
-        public static void setR(bool R)
+        public static void setAllowCreateSubdirectories(bool allowCreateSubdirectoriesParam)
         {
-            r = R;
+            allowCreateSubdirectories = allowCreateSubdirectoriesParam;
         }
 
-        public static void setF(bool F)
+        public static void setAllowOverwriteExistingFiles(bool allowOverwriteExistingFilesParam)
         {
-            f = F;
+            allowOverwriteExistingFiles = allowOverwriteExistingFilesParam;
         }
 
-        public static void setZ(string Z)
+        public static void setZIPfileSuffixName(string ZIPfileSuffixNameParam)
         {
-            z = Z;
+            ZIPfileSuffixName = ZIPfileSuffixNameParam;
         }
 
-        public static void setE(string E)
+        public static void setListOfAllowedExtensions(string listOfAllowedExtensionsParam)
         {
-            e = E;
+            listOfAllowedExtensions = listOfAllowedExtensionsParam;
         }
 
-        public static void setR(string I)
+        public static void setIndexFileName(string indexFileNameParam)
         {
-            i = I;
+            indexFileName = indexFileNameParam;
         }
 
-        public static void setSRCDIR(string srcDir)
+        public static void setSourceDirectory(string sourceDirectoryParam)
         {
-            if(srcDir == "")
+            if(sourceDirectoryParam == "")
             {
                 return;
             }
 
-            int at = srcDir.LastIndexOf('\\', srcDir.Length - 1, 1);
+            int at = sourceDirectoryParam.LastIndexOf('\\', sourceDirectoryParam.Length - 1, 1);
 
             if(at < 0)
             {
-                srcDir = srcDir + "\\";
+                sourceDirectoryParam = sourceDirectoryParam + "\\";
             }
 
-            SRCDIR = srcDir;
+            sourceDirectory = sourceDirectoryParam;
         }
 
-        public static void setDESTDIR(string destDir)
+        public static void setDestinationDirectory(string destinationDirectoryParam)
         {
-            if(destDir == "")
+            if(destinationDirectoryParam == "")
             {
                 return;
             }
 
-            int at = destDir.LastIndexOf('\\', destDir.Length - 1, 1);
+            int at = destinationDirectoryParam.LastIndexOf('\\', destinationDirectoryParam.Length - 1, 1);
 
             if (at < 0)
             {
-                destDir = destDir + "\\";
+                destinationDirectoryParam = destinationDirectoryParam + "\\";
             }
 
-            DESTDIR = destDir;
+            destinationDirectory = destinationDirectoryParam;
 
-            if (DESTDIR != "")
+            if (destinationDirectory != "")
             {
-                createDirectory(DESTDIR);
+                createDirectory(destinationDirectory);
             }
         }
     }
