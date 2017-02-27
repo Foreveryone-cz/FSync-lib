@@ -24,19 +24,19 @@ namespace FSync_lib
         {
             if (sourceDirectory == "")
             {
-                Console.WriteLine("Missing parameter SRCDIR");
+                Logger.Instance.Log("Missing parameter SRCDIR");
                 return;
             }
 
             if (!Directory.Exists(sourceDirectory))
             {
-                Console.WriteLine("Directory '" + sourceDirectory + "' doesn't exist!");
+                Logger.Instance.Log("Directory '" + sourceDirectory + "' doesn't exist!");
                 return;
             }
 
             if (destinationDirectory == "")
             {
-                Console.WriteLine("Missing parameter DESTDIR");
+                Logger.Instance.Log("Missing parameter DESTDIR");
                 return;
             }
 
@@ -144,7 +144,7 @@ namespace FSync_lib
                 sw.Flush();
             }
 
-            Console.WriteLine("Moved " + countMoveFiles + " files.");
+            Logger.Instance.Log("Moved " + countMoveFiles + " files.");
         }
 
         private static void compressFilesToZip()
