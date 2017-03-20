@@ -14,8 +14,12 @@ namespace FSync_lib
         private static readonly object mutex = new object();
         private static Logger instance;
 
+        private string actualLogName = @"C:\logs\fsync-lib.log";
+        private string archiveLogName = @"C:\logs\fsync-lib.log.arch";
+
         private Logger()
         {
+            clearLogFiles();
         }
 
         public static Logger Instance
@@ -37,7 +41,31 @@ namespace FSync_lib
 
         public void Log(string msg)
         {
-            // TODO
+            System.IO.StreamWriter file = new System.IO.StreamWriter(actualLogName, true);
+            file.WriteLine(msg);
+
+            file.Close();
+        }
+
+        public void clearLogFiles()
+        {
+            FileInfo actualLogFile = new FileInfo(actualLogName);
+
+            int actualLogLength = Int32.Parse(actualLogFile.Length.ToString());
+
+            if(actualLogLength / 1024 / 1024 > 0)
+            {
+                FileInfo archiveLogFile = new FileInfo(archiveLogName);
+
+                if(archiveLogFile.Exists)
+                {
+                    archiveLogFile.Delete();
+                }
+
+                System.IO.File.Move(actualLogName, archiveLogName);
+            }
+
+
         }
     }
 }

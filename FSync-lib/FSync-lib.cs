@@ -22,6 +22,9 @@ namespace FSync_lib
 
         public static void run()
         {
+            Logger.Instance.Log("--------------------------------------------------------------------------");
+            Logger.Instance.Log("START FSync " + DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss"));
+            Logger.Instance.Log("--------------------------------------------------------------------------");
             if (sourceDirectory == "")
             {
                 Logger.Instance.Log("Missing parameter SRCDIR");
@@ -40,14 +43,27 @@ namespace FSync_lib
                 return;
             }
 
+            Logger.Instance.Log("Moved from " + sourceDirectory);
+            Logger.Instance.Log("Moved to " + destinationDirectory);
+
             FileInfo[] files = GetFilesFromDir(sourceDirectory, listOfAllowedExtensions);
 
             IndexFiles(files);
 
             if (ZIPfileSuffixName != "")
             {
-                compressFilesToZip();
+                bool isCreatedCompressFile = compressFilesToZip();
+
+                if(isCreatedCompressFile)
+                {
+                    Logger.Instance.Log("Created compress file " + ZIPfileSuffixName);
+                }
             }
+
+            Logger.Instance.Log("--------------------------------------------------------------------------");
+            Logger.Instance.Log("STOP FSync " + DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss"));
+            Logger.Instance.Log("--------------------------------------------------------------------------");
+            Logger.Instance.Log("\n\r");
 
             return;
 
@@ -147,7 +163,7 @@ namespace FSync_lib
             Logger.Instance.Log("Moved " + countMoveFiles + " files.");
         }
 
-        private static void compressFilesToZip()
+        private static bool compressFilesToZip()
         {
 
             if (Directory.Exists(destinationDirectory + "tmp"))
@@ -155,7 +171,11 @@ namespace FSync_lib
                 ZipFile.CreateFromDirectory(destinationDirectory + "tmp", destinationDirectory + ZIPfileSuffixName);
 
                 Directory.Delete(destinationDirectory + "tmp", true);
+
+                return true;
             }
+
+            return false;
         }
 
         private static List<Array> getDataFromIndex()
@@ -237,14 +257,14 @@ namespace FSync_lib
 
         public static void setSourceDirectory(string sourceDirectoryParam)
         {
-            if(sourceDirectoryParam == "")
+            if (sourceDirectoryParam == "")
             {
                 return;
             }
 
             int at = sourceDirectoryParam.LastIndexOf('\\', sourceDirectoryParam.Length - 1, 1);
 
-            if(at < 0)
+            if (at < 0)
             {
                 sourceDirectoryParam = sourceDirectoryParam + "\\";
             }
@@ -254,7 +274,7 @@ namespace FSync_lib
 
         public static void setDestinationDirectory(string destinationDirectoryParam)
         {
-            if(destinationDirectoryParam == "")
+            if (destinationDirectoryParam == "")
             {
                 return;
             }
