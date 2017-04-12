@@ -1,0 +1,5 @@
+C:\Users\Obchod\Documents\FSync\FSync-lib\FSync-lib\bin\Release\FSync-lib.dll
+C:\Users\Obchod\Documents\FSync\FSync-lib\FSync-lib\bin\Release\FSync-lib.pdb
+C:\Users\Obchod\Documents\FSync\FSync-lib\FSync-lib\obj\Release\FSync-lib.dll
+C:\Users\Obchod\Documents\FSync\FSync-lib\FSync-lib\obj\Release\FSync-lib.pdb
+C:\Users\Obchod\Documents\FSync\FSync-lib\FSync-lib\obj\Release\FSync-lib.csprojResolveAssemblyReference.cache

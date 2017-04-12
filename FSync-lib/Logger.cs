@@ -19,6 +19,8 @@ namespace FSync_lib
 
         private Logger()
         {
+            using (StreamWriter w = File.AppendText(actualLogName)) ;
+
             clearLogFiles();
         }
 
@@ -41,10 +43,15 @@ namespace FSync_lib
 
         public void Log(string msg)
         {
-            System.IO.StreamWriter file = new System.IO.StreamWriter(actualLogName, true);
-            file.WriteLine(msg);
+            using (StreamWriter sw = new StreamWriter(actualLogName))
+            {
 
-            file.Close();
+            }
+                System.IO.StreamWriter file = new System.IO.StreamWriter(actualLogName, true);
+                file.WriteLine(msg);
+
+                file.Close();
+            
         }
 
         public void clearLogFiles()

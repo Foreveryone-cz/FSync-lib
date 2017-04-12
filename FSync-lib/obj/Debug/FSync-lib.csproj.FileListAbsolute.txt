@@ -7,3 +7,8 @@ C:\Users\Pavel\Documents\Visual Studio 2015\GITHub\FSync-lib\FSync-lib\bin\Debug
 C:\Users\Pavel\Documents\Visual Studio 2015\GITHub\FSync-lib\FSync-lib\bin\Debug\FSync-lib.pdb
 C:\Users\Pavel\Documents\Visual Studio 2015\GITHub\FSync-lib\FSync-lib\obj\Debug\FSync-lib.dll
 C:\Users\Pavel\Documents\Visual Studio 2015\GITHub\FSync-lib\FSync-lib\obj\Debug\FSync-lib.pdb
+C:\Users\Obchod\Documents\FSync\FSync-lib\FSync-lib\bin\Debug\FSync-lib.dll
+C:\Users\Obchod\Documents\FSync\FSync-lib\FSync-lib\bin\Debug\FSync-lib.pdb
+C:\Users\Obchod\Documents\FSync\FSync-lib\FSync-lib\obj\Debug\FSync-lib.csprojResolveAssemblyReference.cache
+C:\Users\Obchod\Documents\FSync\FSync-lib\FSync-lib\obj\Debug\FSync-lib.dll
+C:\Users\Obchod\Documents\FSync\FSync-lib\FSync-lib\obj\Debug\FSync-lib.pdb
