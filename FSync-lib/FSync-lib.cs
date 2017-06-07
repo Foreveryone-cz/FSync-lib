@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.IO.Compression;
+using Ionic.Zip;
 
 
 namespace FSync_lib
@@ -15,6 +16,7 @@ namespace FSync_lib
         static bool allowCreateSubdirectories   = false;
         static bool allowOverwriteExistingFiles = false;
         static string ZIPfileSuffixName         = "";
+        static int ZIPpartSizeMB                = 0;
         static string listOfAllowedExtensions   = @"^.+\.*$";
         static string indexFileName             = "";
         static string sourceDirectory           = "";
@@ -45,6 +47,11 @@ namespace FSync_lib
 
             Logger.Instance.Log("Moved from " + sourceDirectory);
             Logger.Instance.Log("Moved to " + destinationDirectory);
+
+            if(ZIPpartSizeMB > 0)
+            {
+                Logger.Instance.Log("ZIP file split to parts (" + ZIPpartSizeMB + " MB each).");
+            }
 
             FileInfo[] files = GetFilesFromDir(sourceDirectory, listOfAllowedExtensions);
 
@@ -168,11 +175,28 @@ namespace FSync_lib
 
             if (Directory.Exists(destinationDirectory + "tmp"))
             {
-                ZipFile.CreateFromDirectory(destinationDirectory + "tmp", destinationDirectory + ZIPfileSuffixName);
+                int segmentsCreated;
+                using (Ionic.Zip.ZipFile zip = new Ionic.Zip.ZipFile())
+                {
+                    zip.AddDirectory(destinationDirectory + "tmp");
+                    zip.Comment = "This zip was created at " + System.DateTime.Now.ToString("G");
 
-                Directory.Delete(destinationDirectory + "tmp", true);
+                    if(ZIPpartSizeMB > 0)
+                    {
+                        zip.MaxOutputSegmentSize = ZIPpartSizeMB * 1024 * 1024;
+                    }
 
-                return true;
+                    zip.Save(destinationDirectory + ZIPfileSuffixName);
+
+                    segmentsCreated = zip.NumberOfSegmentsForMostRecentSave;
+                }
+
+                if(segmentsCreated > 0)
+                {
+                    Directory.Delete(destinationDirectory + "tmp", true);
+
+                    return true;
+                }
             }
 
             return false;
@@ -243,6 +267,11 @@ namespace FSync_lib
         public static void setZIPfileSuffixName(string ZIPfileSuffixNameParam)
         {
             ZIPfileSuffixName = ZIPfileSuffixNameParam;
+        }
+
+        public static void setZIPpartSizeMB(int ZIPpartSizeMBParam)
+        {
+            ZIPpartSizeMB = ZIPpartSizeMBParam;
         }
 
         public static void setListOfAllowedExtensions(string listOfAllowedExtensionsParam)

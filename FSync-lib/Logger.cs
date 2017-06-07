@@ -19,7 +19,9 @@ namespace FSync_lib
 
         private Logger()
         {
-            using (StreamWriter w = File.AppendText(actualLogName)) ;
+            using (StreamWriter w = File.AppendText(actualLogName));
+
+            Console.WriteLine(actualLogName);
 
             clearLogFiles();
         }
@@ -40,6 +42,11 @@ namespace FSync_lib
                 }
             }
         }
+
+        /*public void setPath(string path)
+        {
+            this.actualLogName = path;
+        }*/
 
         public void Log(string msg)
         {
