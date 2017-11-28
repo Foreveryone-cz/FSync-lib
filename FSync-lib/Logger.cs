@@ -19,11 +19,9 @@ namespace FSync_lib
 
         private Logger()
         {
-            using (StreamWriter w = File.AppendText(actualLogName));
+            //using (StreamWriter w = File.AppendText(actualLogName));
 
-            Console.WriteLine(actualLogName);
-
-            clearLogFiles();
+            //clearLogFiles();
         }
 
         public static Logger Instance
@@ -43,22 +41,23 @@ namespace FSync_lib
             }
         }
 
-        /*public void setPath(string path)
+        public void setPath(string path)
         {
-            this.actualLogName = path;
-        }*/
+            actualLogName = path + "fsync-lib.log";
+            archiveLogName = path + "fsync-lib.log.arch";
+
+
+            System.IO.Directory.CreateDirectory(path);
+
+            clearLogFiles();
+        }
 
         public void Log(string msg)
         {
-            using (StreamWriter sw = new StreamWriter(actualLogName))
-            {
+            System.IO.StreamWriter file = new System.IO.StreamWriter(actualLogName, true);
+            file.WriteLineAsync(msg);
+            file.Close();
 
-            }
-                System.IO.StreamWriter file = new System.IO.StreamWriter(actualLogName, true);
-                file.WriteLine(msg);
-
-                file.Close();
-            
         }
 
         public void clearLogFiles()

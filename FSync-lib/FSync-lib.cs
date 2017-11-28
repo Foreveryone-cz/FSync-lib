@@ -21,9 +21,11 @@ namespace FSync_lib
         static string indexFileName             = "";
         static string sourceDirectory           = "";
         static string destinationDirectory      = "";
+        static string pathForLogFile            = "";
 
         public static void run()
         {
+            Logger.Instance.setPath(pathForLogFile);
             Logger.Instance.Log("--------------------------------------------------------------------------");
             Logger.Instance.Log("START FSync " + DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss"));
             Logger.Instance.Log("--------------------------------------------------------------------------");
@@ -320,6 +322,28 @@ namespace FSync_lib
             if (destinationDirectory != "")
             {
                 createDirectory(destinationDirectory);
+            }
+        }
+
+        public static void setPathForLogFile(string pathForLogFileParam)
+        {
+            if (pathForLogFileParam == "")
+            {
+                return;
+            }
+
+            int at = pathForLogFileParam.LastIndexOf('\\', pathForLogFileParam.Length - 1, 1);
+
+            if (at < 0)
+            {
+                pathForLogFileParam = pathForLogFileParam + "\\";
+            }
+
+            pathForLogFile = pathForLogFileParam;
+
+            if (pathForLogFile != "")
+            {
+                createDirectory(pathForLogFile);
             }
         }
     }
