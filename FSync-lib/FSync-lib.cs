@@ -89,8 +89,16 @@ namespace FSync_lib
             List<FileInfo> filesList = new List<FileInfo>();
             foreach (string fileName in filePaths)
             {
-                FileInfo fi1 = new FileInfo(fileName);
-                filesList.Add(fi1);
+                try
+                {
+                    FileInfo fi1 = new FileInfo(fileName);
+                    filesList.Add(fi1);
+
+                    // Logger.Instance.Log("Added file with name " + fi1.Name);
+                } catch (IOException ioex)
+                {
+
+                }
             }
 
             FileInfo[] files = filesList.ToArray();
@@ -105,6 +113,11 @@ namespace FSync_lib
                 return false;
             }
 
+            if(!IsFileReadable(file))
+            {
+                return false;
+            }
+
             if (ZIPfileSuffixName != "")
             {
                 if (!Directory.Exists(destinationDirectory + "tmp"))
@@ -114,7 +127,16 @@ namespace FSync_lib
 
                 }
 
-                file.CopyTo(destinationDirectory + "tmp\\" + file.Name, allowOverwriteExistingFiles);
+                try
+                {
+                    file.CopyTo(destinationDirectory + "tmp\\" + file.Name, allowOverwriteExistingFiles);
+                }
+                catch (UnauthorizedAccessException ioex)
+                {
+                    Logger.Instance.Log(ioex.Message);
+
+                    return false;
+                }
             }
             else
             {
@@ -128,12 +150,29 @@ namespace FSync_lib
                 {
                     file.CopyTo(filePath, allowOverwriteExistingFiles);
                 }
-                catch (IOException ioex)
+                catch (UnauthorizedAccessException ioex)
                 {
 
                 }
             }
 
+            return true;
+        }
+
+        private static bool IsFileReadable(FileInfo file)
+        {
+            /*Console.WriteLine(file.Name);
+            try
+            {
+                using (FileStream stream = File.Open(file.Name, FileMode.Open, FileAccess.Read))
+                {
+                    return true;
+                }
+            }
+            catch (IOException)
+            {
+                return false;
+            }*/
             return true;
         }
 
@@ -159,8 +198,10 @@ namespace FSync_lib
 
                     if (isNewFile(dataFromIndex, file))
                     {
-                        moveFile(file);
-                        countMoveFiles++;
+                        if(moveFile(file))
+                        {
+                            countMoveFiles++;
+                        }
                     }
 
                     sw.WriteLine(filePathName + "|" + lastWriteUnixTimestamp);
@@ -174,7 +215,6 @@ namespace FSync_lib
 
         private static bool compressFilesToZip()
         {
-
             if (Directory.Exists(destinationDirectory + "tmp"))
             {
                 int segmentsCreated;
@@ -193,9 +233,16 @@ namespace FSync_lib
                     segmentsCreated = zip.NumberOfSegmentsForMostRecentSave;
                 }
 
-                if(segmentsCreated > 0)
+
+                if (segmentsCreated > 0)
                 {
-                    Directory.Delete(destinationDirectory + "tmp", true);
+                    try
+                    {
+                        Directory.Delete(destinationDirectory + "tmp", true);
+                    } catch (IOException ioex)
+                    {
+
+                    }
 
                     return true;
                 }
