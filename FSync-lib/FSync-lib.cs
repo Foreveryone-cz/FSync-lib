@@ -194,7 +194,15 @@ namespace FSync_lib
                     }
 
                     string filePathName = file.FullName;
-                    int lastWriteUnixTimestamp = DateTimeToUnixTimestamp(file.LastWriteTimeUtc);
+
+                    int time = DateTimeToUnixTimestamp(file.LastWriteTimeUtc);
+
+                    if (DateTimeToUnixTimestamp(file.CreationTimeUtc) > time)
+                    {
+                        time = DateTimeToUnixTimestamp(file.CreationTimeUtc);
+                    }
+
+                    int lastWriteUnixTimestamp = time;
 
                     if (isNewFile(dataFromIndex, file))
                     {
@@ -279,7 +287,14 @@ namespace FSync_lib
         {
             foreach (string[] fileFromIndex in filesFromIndex)
             {
-                if (fileFromIndex[0] == file.FullName && fileFromIndex[1] == DateTimeToUnixTimestamp(file.LastWriteTimeUtc).ToString())
+                int time = DateTimeToUnixTimestamp(file.LastWriteTimeUtc);
+
+                if(DateTimeToUnixTimestamp(file.CreationTimeUtc) > time)
+                {
+                    time = DateTimeToUnixTimestamp(file.CreationTimeUtc);
+                }
+
+                if (fileFromIndex[0] == file.FullName && fileFromIndex[1] == time.ToString())
                 {
                     return false;
                 }

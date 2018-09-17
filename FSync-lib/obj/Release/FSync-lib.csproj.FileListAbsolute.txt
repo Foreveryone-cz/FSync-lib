@@ -17,3 +17,11 @@ C:\Users\Pavliczech\Documents\Visual Studio 2015\GITHub\FSync-lib\FSync-lib\obj\
 C:\Users\Pavliczech\Documents\Visual Studio 2015\GITHub\FSync-lib\FSync-lib\obj\Release\FSync-lib.dll
 C:\Users\Pavliczech\Documents\Visual Studio 2015\GITHub\FSync-lib\FSync-lib\obj\Release\FSync-lib.pdb
 C:\Users\Obchod\Documents\FSync\FSync-lib\FSync-lib\bin\Release\Ionic.Zip.dll
+D:\dokumenty\Visual Studio 2015\GITHub\FSync-lib\FSync-lib\bin\Release\FSync-lib.dll
+D:\dokumenty\Visual Studio 2015\GITHub\FSync-lib\FSync-lib\bin\Release\FSync-lib.pdb
+D:\dokumenty\Visual Studio 2015\GITHub\FSync-lib\FSync-lib\bin\Release\Ionic.Zip.dll
+D:\dokumenty\Visual Studio 2015\GITHub\FSync-lib\FSync-lib\obj\Release\FSync-lib.csprojAssemblyReference.cache
+D:\dokumenty\Visual Studio 2015\GITHub\FSync-lib\FSync-lib\obj\Release\FSync-lib.csproj.CoreCompileInputs.cache
+D:\dokumenty\Visual Studio 2015\GITHub\FSync-lib\FSync-lib\obj\Release\FSync-lib.csproj.CopyComplete
+D:\dokumenty\Visual Studio 2015\GITHub\FSync-lib\FSync-lib\obj\Release\FSync-lib.dll
+D:\dokumenty\Visual Studio 2015\GITHub\FSync-lib\FSync-lib\obj\Release\FSync-lib.pdb
