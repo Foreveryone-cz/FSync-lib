@@ -26,3 +26,10 @@ D:\dokumenty\Visual Studio 2015\GITHub\FSync-lib\FSync-lib\obj\Debug\FSync-lib.c
 D:\dokumenty\Visual Studio 2015\GITHub\FSync-lib\FSync-lib\obj\Debug\FSync-lib.csproj.CopyComplete
 D:\dokumenty\Visual Studio 2015\GITHub\FSync-lib\FSync-lib\obj\Debug\FSync-lib.dll
 D:\dokumenty\Visual Studio 2015\GITHub\FSync-lib\FSync-lib\obj\Debug\FSync-lib.pdb
+C:\Users\Pavlik\Documents\FSync-lib\FSync-lib\bin\Debug\FSync-lib.dll
+C:\Users\Pavlik\Documents\FSync-lib\FSync-lib\bin\Debug\FSync-lib.pdb
+C:\Users\Pavlik\Documents\FSync-lib\FSync-lib\obj\Debug\FSync-lib.csprojAssemblyReference.cache
+C:\Users\Pavlik\Documents\FSync-lib\FSync-lib\obj\Debug\FSync-lib.csproj.CoreCompileInputs.cache
+C:\Users\Pavlik\Documents\FSync-lib\FSync-lib\obj\Debug\FSync-lib.csproj.CopyComplete
+C:\Users\Pavlik\Documents\FSync-lib\FSync-lib\obj\Debug\FSync-lib.dll
+C:\Users\Pavlik\Documents\FSync-lib\FSync-lib\obj\Debug\FSync-lib.pdb

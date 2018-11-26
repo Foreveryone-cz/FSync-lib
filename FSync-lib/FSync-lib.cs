@@ -226,7 +226,7 @@ namespace FSync_lib
             if (Directory.Exists(destinationDirectory + "tmp"))
             {
                 int segmentsCreated;
-                using (Ionic.Zip.ZipFile zip = new Ionic.Zip.ZipFile())
+                using (Ionic.Zip.ZipFile zip = new Ionic.Zip.ZipFile(Encoding.UTF8))
                 {
                     zip.AddDirectory(destinationDirectory + "tmp");
                     zip.Comment = "This zip was created at " + System.DateTime.Now.ToString("G");
@@ -246,7 +246,7 @@ namespace FSync_lib
                 {
                     try
                     {
-                        Directory.Delete(destinationDirectory + "tmp", true);
+                        DeleteDirectory(destinationDirectory + "tmp");
                     } catch (IOException ioex)
                     {
 
@@ -257,6 +257,27 @@ namespace FSync_lib
             }
 
             return false;
+        }
+
+        private static void DeleteDirectory(string targetDir)
+        {
+            File.SetAttributes(targetDir, FileAttributes.Normal);
+
+            string[] files = Directory.GetFiles(targetDir);
+            string[] dirs = Directory.GetDirectories(targetDir);
+
+            foreach (string file in files)
+            {
+                File.SetAttributes(file, FileAttributes.Normal);
+                File.Delete(file);
+            }
+
+            foreach (string dir in dirs)
+            {
+                DeleteDirectory(dir);
+            }
+
+            Directory.Delete(targetDir, false);
         }
 
         private static List<Array> getDataFromIndex()
