@@ -225,22 +225,91 @@ namespace FSync_lib
         {
             if (Directory.Exists(destinationDirectory + "tmp"))
             {
-                int segmentsCreated;
+                int segmentsCreated = 0;
                 using (Ionic.Zip.ZipFile zip = new Ionic.Zip.ZipFile(Encoding.UTF8))
                 {
-                    zip.AddDirectory(destinationDirectory + "tmp");
-                    zip.Comment = "This zip was created at " + System.DateTime.Now.ToString("G");
-
-                    if(ZIPpartSizeMB > 0)
+                    if (ZIPpartSizeMB <= 0)
                     {
-                        zip.MaxOutputSegmentSize = ZIPpartSizeMB * 1024 * 1024;
+                        zip.AddDirectory(destinationDirectory + "tmp");
+                        zip.Comment = "This zip was created at " + System.DateTime.Now.ToString("G");
+
+                        zip.Save(destinationDirectory + ZIPfileSuffixName);
+
+                        segmentsCreated = zip.NumberOfSegmentsForMostRecentSave;
                     }
-
-                    zip.Save(destinationDirectory + ZIPfileSuffixName);
-
-                    segmentsCreated = zip.NumberOfSegmentsForMostRecentSave;
                 }
 
+                if (ZIPpartSizeMB > 0)
+                {
+
+                    FileInfo[] files = GetFilesFromDir(destinationDirectory + "tmp", listOfAllowedExtensions);
+
+
+                    double filesSize = 0;
+                    int part = 0;
+                    int lastIndex = 0;
+
+                    while (true)
+                    {
+                        using (Ionic.Zip.ZipFile zip = new Ionic.Zip.ZipFile(Encoding.UTF8))
+                        {
+                            if (lastIndex == files.Count())
+                            {
+                                segmentsCreated++;
+
+                                break;
+                            }
+
+                            for (int i = lastIndex; i <= files.Count(); i++)
+                            {
+                                if(lastIndex == files.Count())
+                                {
+                                    part++;
+                                    zip.Save(destinationDirectory + part + "_" + ZIPfileSuffixName);
+
+                                    filesSize = 0;
+
+                                    break;
+                                }
+
+                                FileInfo file = files[i];
+
+                                if(file.Length / 1024 > ZIPpartSizeMB * 1024)
+                                {
+                                    zip.AddFile(file.FullName, "");
+
+                                    filesSize += file.Length / 1024;
+                                    lastIndex++;
+
+                                    part++;
+                                    zip.Save(destinationDirectory + part + "_" + ZIPfileSuffixName);
+
+                                    filesSize = 0;
+
+                                    break;
+                                }
+
+
+                                if ((ZIPpartSizeMB * 1024 > (filesSize + (file.Length / 1024)) && i < files.Count()))
+                                {
+                                    zip.AddFile(file.FullName, "");
+
+                                    filesSize += file.Length / 1024;
+                                    lastIndex++;
+                                }
+                                else
+                                {
+                                    part++;
+                                    zip.Save(destinationDirectory + part + "_" + ZIPfileSuffixName);
+
+                                    filesSize = 0;
+
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
 
                 if (segmentsCreated > 0)
                 {

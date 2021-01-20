@@ -33,3 +33,10 @@ C:\Users\Pavlik\Documents\FSync-lib\FSync-lib\obj\Debug\FSync-lib.csproj.CoreCom
 C:\Users\Pavlik\Documents\FSync-lib\FSync-lib\obj\Debug\FSync-lib.csproj.CopyComplete
 C:\Users\Pavlik\Documents\FSync-lib\FSync-lib\obj\Debug\FSync-lib.dll
 C:\Users\Pavlik\Documents\FSync-lib\FSync-lib\obj\Debug\FSync-lib.pdb
+E:\GitHub\FSync-lib\FSync-lib\bin\Debug\FSync-lib.dll
+E:\GitHub\FSync-lib\FSync-lib\bin\Debug\FSync-lib.pdb
+E:\GitHub\FSync-lib\FSync-lib\obj\Debug\FSync-lib.csprojAssemblyReference.cache
+E:\GitHub\FSync-lib\FSync-lib\obj\Debug\FSync-lib.csproj.CoreCompileInputs.cache
+E:\GitHub\FSync-lib\FSync-lib\obj\Debug\FSync-lib.csproj.CopyComplete
+E:\GitHub\FSync-lib\FSync-lib\obj\Debug\FSync-lib.dll
+E:\GitHub\FSync-lib\FSync-lib\obj\Debug\FSync-lib.pdb
